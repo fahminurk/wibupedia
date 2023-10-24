@@ -1,6 +1,8 @@
+"use client";
 import Loadingg from "@/components/loadingg";
-import Image from "next/image";
 import React from "react";
+import "react-loading-skeleton/dist/skeleton.css";
+
 const Loading = () => {
   return <Loadingg />;
 };
