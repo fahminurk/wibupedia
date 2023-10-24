@@ -32,6 +32,5 @@ const InputGroup = React.forwardRef<HTMLInputElement, InputGroupProps>(
     );
   }
 );
-InputGroup.displayName = "InputGroup"; // Mengganti nama displayName menjadi "InputGroup"
-
-export { InputGroup }; // Mengganti export menjadi "InputGroup"
+InputGroup.displayName = "InputGroup";
+export { InputGroup };
