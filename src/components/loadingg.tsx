@@ -1,10 +1,11 @@
 import Image from "next/image";
 import React from "react";
+import { BarLoader } from "react-spinners";
 
 const Loadingg = () => {
   return (
     <div className="flex justify-center items-center min-h-screen ">
-      <Image src={"/spinner.svg"} alt="loading" width={50} height={50} />
+      <BarLoader color="gray" />
     </div>
   );
 };
