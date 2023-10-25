@@ -28,10 +28,20 @@ const Section: React.FC<SectionProps> = ({ title, link }) => {
       } finally {
         setIsLoading(false);
       }
-    } else {
+    } else if (title === "TOP ANIME") {
       setIsLoading(true);
       try {
         const res = await topClient.getTopAnime();
+        setAnimes(res.data);
+      } catch (error) {
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(true);
+      try {
+        const res = await seasonsClient.getSeasonUpcoming();
         setAnimes(res.data);
       } catch (error) {
         setIsLoading(false);

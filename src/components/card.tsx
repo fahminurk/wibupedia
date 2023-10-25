@@ -38,7 +38,7 @@ const Card = ({ val }: { val: Anime }) => {
           width={200}
           height={300}
           className={clsx(
-            `object-cover max-h-52 w-40 md:max-h-72 md:w-52 h-full`,
+            `object-cover max-h-52 w-40 md:max-h-72 md:w-52 h-screen`,
             hover ? "scale-105" : "scale-95"
           )}
         />

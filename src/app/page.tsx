@@ -4,7 +4,8 @@ export default function Home() {
   return (
     <>
       <Section title={"SEASONAL ANIME"} link="/seasons" />
-      <Section title={"TOP ANIME"} link="/top" />
+      <Section title={"TOP ANIME"} link="/top-anime" />
+      <Section title={"UPCOMING ANIME"} link="/upcoming" />
     </>
   );
 }
