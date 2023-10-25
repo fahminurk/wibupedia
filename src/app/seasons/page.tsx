@@ -4,9 +4,7 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import React, { useEffect, useState } from "react";
 import { SeasonsClient, Anime, JikanPagination } from "@tutkli/jikan-ts";
 import Loadingg from "@/components/loadingg";
-import CardNew from "@/components/cardNew";
-import { AiOutlineArrowUp } from "react-icons/ai";
-import clsx from "clsx";
+import AnimeCard from "@/components/animeCard";
 import { getSeason } from "@/utils/getSeason";
 import { Select } from "@/components/ui/select";
 import { yearOptions, seasonOptions } from "@/constants";
@@ -21,7 +19,6 @@ const Season = () => {
   const [seasonData, setSeasonData] = useState<SeasonProps | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showButton, setShowButton] = useState<boolean>(false);
   const nowYear = new Date().getFullYear();
   const [year, setYear] = useState<number>(nowYear);
   const [season, setSeason] = useState<string>(getSeason);
@@ -43,7 +40,7 @@ const Season = () => {
 
   useEffect(() => {
     fetchData(currentPage, year, season);
-    scrollToTop();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage, year, season]);
 
   const handleNextPage = () => {
@@ -56,29 +53,8 @@ const Season = () => {
     }
   };
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  const handleScroll = () =>
-    window.scrollY > 500 ? setShowButton(true) : setShowButton(false);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
     <section className="flex flex-col ">
-      <Button
-        className={clsx(
-          `fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full`,
-          showButton ? "block" : "hidden"
-        )}
-        onClick={scrollToTop}
-      >
-        <AiOutlineArrowUp />
-      </Button>
       <div className="bg-white py-1 px-4 rounded-lg mx-2 my-3 sticky top-[80px] z-20 flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <h2 className="font-bold">SEASON</h2>
@@ -118,7 +94,7 @@ const Season = () => {
       ) : (
         <div className="flex gap-4 flex-wrap justify-center px-2">
           {seasonData?.data.map((val, i) => (
-            <CardNew key={i} val={val} />
+            <AnimeCard key={i} val={val} />
           ))}
         </div>
       )}
