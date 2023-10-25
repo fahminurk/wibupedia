@@ -9,8 +9,7 @@ import { AiOutlineArrowUp } from "react-icons/ai";
 import clsx from "clsx";
 import { getSeason } from "@/utils/getSeason";
 import { Select } from "@/components/ui/select";
-import { yearOptions } from "@/constants/years";
-import { seasonOptions } from "@/constants/seasons";
+import { yearOptions, seasonOptions } from "@/constants";
 
 type SeasonProps = {
   data: Anime[];
@@ -70,7 +69,7 @@ const Season = () => {
   }, []);
 
   return (
-    <section className="flex flex-col my-2 ">
+    <section className="flex flex-col ">
       <Button
         className={clsx(
           `fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full`,
@@ -80,7 +79,7 @@ const Season = () => {
       >
         <AiOutlineArrowUp />
       </Button>
-      <div className="bg-white py-1 px-4 rounded-lg mx-2 my-2 sticky top-[80px] z-20 flex justify-between items-center">
+      <div className="bg-white py-1 px-4 rounded-lg mx-2 my-3 sticky top-[80px] z-20 flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <h2 className="font-bold">SEASON</h2>
           <Select
@@ -100,6 +99,7 @@ const Season = () => {
             disabled={currentPage === 1}
             size={"sm"}
             onClick={handlePreviousPage}
+            variant={"outline"}
           >
             <BiSolidLeftArrow />
           </Button>
@@ -107,6 +107,7 @@ const Season = () => {
             disabled={currentPage === 6}
             size={"sm"}
             onClick={handleNextPage}
+            variant={"outline"}
           >
             <BiSolidRightArrow />
           </Button>
