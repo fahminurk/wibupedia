@@ -69,7 +69,7 @@ const Page = () => {
         <Loadingg />
       ) : (
         <div className="flex flex-col items-center p-2 ">
-          <div className="flex flex-col items-center md:items-start md:justify-center md:flex-row max-w-6xl  gap-2">
+          <div className="flex flex-col items-center md:items-start md:justify-center md:flex-row max-w-6xl gap-2">
             <Image
               src={anime?.images.jpg.large_image_url!}
               alt="cover"
@@ -78,7 +78,7 @@ const Page = () => {
               className="object-cover w-44 md:w-52 lg:w-72 max-h-[550px] md:sticky md:top-20"
             />
 
-            <div className="text-white flex flex-col items-center md:justify-start w-screen">
+            <div className="text-white flex flex-col items-center md:justify-start w-full">
               <Description anime={anime!} />
               <div className="flex flex-col py-4 w-full border-b-2">
                 <p className="text-2xl font-bold py-2">SYNOPSIS</p>

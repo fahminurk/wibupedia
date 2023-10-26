@@ -8,6 +8,7 @@ import AnimeCard from "@/components/animeCard";
 import { getSeason } from "@/utils/getSeason";
 import { Select } from "@/components/ui/select";
 import { yearOptions, seasonOptions } from "@/constants";
+import BarPagination from "@/components/barPagination";
 
 type SeasonProps = {
   data: Anime[];
@@ -22,6 +23,7 @@ const Season = () => {
   const nowYear = new Date().getFullYear();
   const [year, setYear] = useState<number>(nowYear);
   const [season, setSeason] = useState<string>(getSeason);
+  const [maxPage, setMaxPage] = useState<boolean>(false);
 
   const fetchData = async (page: number, year: number, season: string) => {
     setIsLoading(true);
@@ -30,6 +32,11 @@ const Season = () => {
       const res: SeasonProps = await seasonsClient.getSeason(year, season, {
         page,
       });
+      if (res?.data.length < 25) {
+        setMaxPage(true);
+      } else {
+        setMaxPage(false);
+      }
       setSeasonData(res);
     } catch (error) {
       setIsLoading(false);
@@ -43,6 +50,12 @@ const Season = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage, year, season]);
 
+  useEffect(() => {
+    if (currentPage > 1) {
+      setCurrentPage(1);
+    }
+  }, [year, season]);
+
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
   };
@@ -52,43 +65,24 @@ const Season = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+  const handleSeason = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSeason(e.target.value);
+  };
+  const handleYear = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setYear(parseInt(e.target.value));
+  };
 
   return (
     <section className="flex flex-col ">
-      <div className="bg-white py-1 px-4 rounded-lg mx-2 my-3 sticky top-[80px] z-20 flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <h2 className="font-bold">SEASON</h2>
-          <Select
-            value={year}
-            options={yearOptions}
-            onChange={(e) => setYear(parseInt(e.target.value))}
-          />
-          <Select
-            value={season}
-            options={seasonOptions}
-            onChange={(e) => setSeason(e.target.value)}
-          />
-        </div>
-        <div className="flex gap-2 items-center">
-          <p className="hidden md:block text-xs">PAGE {currentPage}</p>
-          <Button
-            disabled={currentPage === 1}
-            size={"sm"}
-            onClick={handlePreviousPage}
-            variant={"outline"}
-          >
-            <BiSolidLeftArrow />
-          </Button>
-          <Button
-            disabled={currentPage === 6}
-            size={"sm"}
-            onClick={handleNextPage}
-            variant={"outline"}
-          >
-            <BiSolidRightArrow />
-          </Button>
-        </div>
-      </div>
+      <BarPagination
+        title="SEASON"
+        maxPage={maxPage}
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
+        currentPage={currentPage}
+        handleYear={handleYear}
+        handleSeason={handleSeason}
+      />
       {isLoading ? (
         <Loadingg />
       ) : (
