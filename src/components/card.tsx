@@ -32,11 +32,12 @@ const Card = ({ val }: { val: Anime }) => {
             {val.title}
           </p>
         </div>
-        <Image
+        <img
           src={val.images.jpg.large_image_url!}
           alt="cover"
           width={200}
           height={300}
+          loading="lazy"
           className={clsx(
             `object-cover max-h-52 w-40 md:max-h-72 md:w-52 h-screen`,
             hover ? "scale-105" : "scale-95"

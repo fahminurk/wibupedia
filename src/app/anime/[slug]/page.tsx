@@ -70,11 +70,12 @@ const Page = () => {
       ) : (
         <div className="flex flex-col items-center p-2 ">
           <div className="flex flex-col items-center md:items-start md:justify-center md:flex-row max-w-6xl gap-2">
-            <Image
+            <img
               src={anime?.images.jpg.large_image_url!}
               alt="cover"
               width={400}
               height={300}
+              loading="lazy"
               className="object-cover w-44 md:w-52 lg:w-72 max-h-[550px] md:sticky md:top-20"
             />
 
@@ -101,8 +102,8 @@ const Page = () => {
                 </div>
               </div>
               <div className=" h-[270px] md:h-[350px] lg:h-[480px] w-full my-2">
-                <ReactPlayer
-                  url={anime?.trailer.embed_url}
+                <iframe
+                  src={anime?.trailer.embed_url}
                   width={"100%"}
                   height={"100%"}
                 />

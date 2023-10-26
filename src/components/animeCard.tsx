@@ -41,12 +41,13 @@ const AnimeCard: React.FC<CardProps> = ({ val }) => {
         </div>
         <div className="flex h-screen max-h-60">
           {/* image */}
-          <Image
+          <img
             src={val.images.jpg.large_image_url!}
             alt="cover"
             width={150}
             height={300}
             className=" object-cover w-full max-w-[180px] "
+            loading="lazy"
           />
           {/* desc */}
           <div className=" p-2 text-white text-xs overflow-y-clip hover:overflow-y-auto">
