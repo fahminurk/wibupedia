@@ -12,11 +12,12 @@ const CharacterCard: React.FC<CharacterProps> = ({ val, country }) => {
   return (
     <div className="flex justify-between  bg-gray-950 ">
       <div className="flex  text-xs gap-2">
-        <Image
+        <img
           src={val.character.images.jpg.image_url}
           alt="character"
           width={70}
           height={100}
+          loading="lazy"
         />
         <div>
           <p className="font-bold">{val.character.name}</p>
@@ -29,12 +30,13 @@ const CharacterCard: React.FC<CharacterProps> = ({ val, country }) => {
             <p className="font-bold">{actor.person.name}</p>
             <p>{actor.language}</p>
           </div>
-          <Image
+          <img
             src={actor.person.images.jpg.image_url}
             alt="person"
             width={70}
             height={100}
             className="object-cover"
+            loading="lazy"
           />
         </div>
       )}
