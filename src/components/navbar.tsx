@@ -4,6 +4,7 @@ import { InputGroup } from "./ui/inputGroup";
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 const Navbar = () => {
   const [keyword, setKeyword] = useState<string>("");
   const router = useRouter();
