@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ScrollButton from "@/components/scrollButton";
-
-const inter = Inter({ subsets: ["latin"] });
+import QueryProvider from "@/lib/tanstack/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Wibupedia",
@@ -44,12 +42,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black">
-        <main>
-          <Navbar />
-          <ScrollButton />
-          {children}
-          <Footer />
-        </main>
+        <QueryProvider>
+          <main>
+            <Navbar />
+            <ScrollButton />
+            {children}
+            <Footer />
+          </main>
+        </QueryProvider>
       </body>
     </html>
   );

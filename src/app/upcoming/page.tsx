@@ -1,51 +1,34 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { SeasonsClient, JikanPagination, Anime } from "@tutkli/jikan-ts";
 import Loadingg from "@/components/loadingg";
 import AnimeCard from "@/components/animeCard";
 import BarPagination from "@/components/barPagination";
-
-type SeasonProps = {
-  data: Anime[];
-  paginaton?: JikanPagination;
-};
+import { useGetSeasonUpcoming } from "@/lib/tanstack/queries";
 
 const Upcoming = () => {
-  const seasonClient = new SeasonsClient();
-  const [animeTop, setAnimeTop] = useState<SeasonProps | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [maxPage, setMaxPage] = useState<boolean>(false);
-
-  const fetchData = async (page: number) => {
-    setIsLoading(true);
-    try {
-      const res: SeasonProps = await seasonClient.getSeasonUpcoming({ page });
-      if (res?.data.length < 25) {
-        setMaxPage(true);
-      } else {
-        setMaxPage(false);
-      }
-      setAnimeTop(res);
-    } catch (error) {
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { data, isPending } = useGetSeasonUpcoming(currentPage);
 
   useEffect(() => {
-    fetchData(currentPage);
+    if (data && data.data.length < 25) {
+      setMaxPage(true);
+    } else {
+      setMaxPage(false);
+    }
+  }, [data]);
+
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    setCurrentPage((prev) => prev + 1);
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
@@ -58,11 +41,13 @@ const Upcoming = () => {
         handlePreviousPage={handlePreviousPage}
         currentPage={currentPage}
       />
-      {isLoading ? (
-        <Loadingg />
+      {isPending ? (
+        <div className="h-screen flex items-center justify-center">
+          <Loadingg />
+        </div>
       ) : (
         <div className="flex gap-4 flex-wrap justify-center px-2">
-          {animeTop?.data.map((val, i) => (
+          {data?.data.map((val, i) => (
             <AnimeCard key={i} val={val} />
           ))}
         </div>

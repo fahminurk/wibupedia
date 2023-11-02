@@ -2,55 +2,33 @@
 import AnimeCard from "@/components/animeCard";
 import BarPagination from "@/components/barPagination";
 import Loadingg from "@/components/loadingg";
-import {
-  Anime,
-  AnimeClient,
-  JikanPagination,
-  JikanResponse,
-} from "@tutkli/jikan-ts";
+import { useGetAnimeSearch } from "@/lib/tanstack/queries";
 import React, { useEffect, useState } from "react";
 
-type PageProps = {
-  data: Anime[];
-  paginaton?: JikanPagination;
-};
 const Page = ({ params }: { params: { keyword: string } }) => {
-  const animClient = new AnimeClient();
-  const [animes, setAnimes] = useState<PageProps | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [maxPage, setMaxPage] = useState<boolean>(false);
-  const fetchData = async (q: string, page: number) => {
-    setIsLoading(true);
-    try {
-      const res = await animClient.getAnimeSearch({ q, page });
-
-      if (res?.data.length < 25) {
-        setMaxPage(true);
-      } else {
-        setMaxPage(false);
-      }
-      setAnimes(res);
-    } catch (error) {
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { data, isPending } = useGetAnimeSearch(params.keyword, currentPage);
 
   useEffect(() => {
-    fetchData(params.keyword, currentPage);
-
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
+  useEffect(() => {
+    if (data && data.data.length < 25) {
+      setMaxPage(true);
+    } else {
+      setMaxPage(false);
+    }
+  }, [data]);
+
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    setCurrentPage((prev) => prev + 1);
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
@@ -63,11 +41,13 @@ const Page = ({ params }: { params: { keyword: string } }) => {
         handlePreviousPage={handlePreviousPage}
         maxPage={maxPage}
       />
-      {isLoading ? (
-        <Loadingg />
+      {isPending ? (
+        <div className="h-screen flex items-center justify-center">
+          <Loadingg />
+        </div>
       ) : (
         <div className="flex gap-4 flex-wrap justify-center px-2">
-          {animes?.data.map((val, i) => (
+          {data?.data.map((val, i) => (
             <AnimeCard key={i} val={val} />
           ))}
         </div>
